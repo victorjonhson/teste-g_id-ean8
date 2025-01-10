@@ -12,6 +12,8 @@ int main(int argc, char *argv[]){
     int digitos[8] = {};
     int soma = 0;
 
+    char cod_barras[68];
+
     if(argc < 2){
         printf("Por favor, digite um identificador de 8 numeros como argumento.\n");
         return -1;
@@ -57,6 +59,8 @@ int main(int argc, char *argv[]){
         printf("Soma: %d\n", soma);
     }
 
+    printf("\n");
 
-    codIdentificador(digitos);
+    codIdentificador(digitos, cod_barras);
+    printf("Codigo de barras gerado eh (binario): %s\n", cod_barras);
 }
