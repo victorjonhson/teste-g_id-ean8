@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "cd_barras.h"
 
 //gerador de codigo EAN-8
 //gerar uma imagem com um codigo de barras a partir de um dado identificador
@@ -10,6 +11,8 @@ int main(int argc, char *argv[]){
 
     int digitos[8] = {};
     int soma = 0;
+
+    char cod_barras[68];
 
     if(argc < 2){
         printf("Por favor, digite um identificador de 8 numeros como argumento.\n");
@@ -55,4 +58,9 @@ int main(int argc, char *argv[]){
         printf("Houve algum erro.\n");
         printf("Soma: %d\n", soma);
     }
+
+    printf("\n");
+
+    codIdentificador(digitos, cod_barras);
+    printf("Codigo de barras gerado eh (binario): %s\n", cod_barras);
 }
