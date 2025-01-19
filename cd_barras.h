@@ -68,25 +68,33 @@ void codIdentificador(int identificador[], char resultado[]) {
     for(int i = 0; i < 3; i++){
         resultado[pos++] = '0' + fim_cod[i];
     }
+
+    resultado[pos] = '\0';
 }
 
 //apos a conversao do codigo de barras de 8 digitos para binario
 //iremos gerar a imagem de arquivo .pbm com largura e altura padrao ou definida pelo o usuario
 
 //funcao para gerar a imagem .pbm do codigo de barras
-void gerarImagemPBM(const char *codBarras, const char *nomeArquivo, int altura){
-    int largura = strlen(codBarras);
+void gerarImagemPBM(const char *codBarras, const char *nomeArquivo, int altura, int espaco_l){
+    
+    int largura = strlen(codBarras) + (espaco_l*2);
+    altura += (espaco_l*2);
 
     FILE *arquivo = fopen(nomeArquivo, "w");
 
     //cabecalho
-    fprintf(arquivo, "Arquivo .PBM");
-    fprintf(arquivo, "%d x %d", largura, altura);
-    fprintf(arquivo, "\n");
+    fprintf(arquivo, "P1\n");
+    fprintf(arquivo, "%d %d\n", largura, altura);
 
     for (int lin = 0; lin < altura; lin++){
         for (int col = 0; col < largura; col++){
-            fprintf(arquivo, "%c ", codBarras[col]);
+
+            if(lin < 4 || lin >= (altura - espaco_l) || col < 4 || col >= (largura - espaco_l)){
+                fprintf(arquivo, "0 "); 
+            } else {
+                fprintf(arquivo, "%c ", codBarras[col]);
+            }
         }
 
         fprintf(arquivo, "\n");

@@ -15,7 +15,8 @@ int main(int argc, char *argv[]){
     char cod_barras[68];
     const char *nomeArquivo = "cd_barras.pbm";
 
-    int altura = 6;
+    int altura = 50;
+    int espaco_l = 8;
 
     if(argc < 2){
         printf("Por favor, digite um identificador de 8 numeros como argumento.\n");
@@ -69,6 +70,6 @@ int main(int argc, char *argv[]){
     printf("Codigo de barras gerado eh (binario): %s\n", cod_barras);
 
     //gerar imagem .pbm com o codigo binario
-    gerarImagemPBM(cod_barras, "cod_barras.pbm", altura);
+    gerarImagemPBM(cod_barras, "cod_barras.pbm", altura, espaco_l);
 
 }
