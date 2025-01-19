@@ -12,10 +12,10 @@ int main(int argc, char *argv[]){
     int digitos[8] = {};
     int soma = 0;
 
-    char cod_barras[68];
+    char cod_barras[68*3];
     const char *nomeArquivo = "cd_barras.pbm";
 
-    int altura = 50;
+    int altura = 100;
     int espaco_l = 8;
 
     if(argc < 2){
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
     //verificando se os dados estao corretos (somente valido de 0 a 9)
     for (int i = 0; i < 8; i++){
         if (digitos[i] < 0 || digitos[i] > 9){
-            printf("Erro na leitura!\n");
+            printf("O Identificador precisa ter apenas numeros! Digite novamente:\n");
             return -1;
         }
     }
@@ -63,10 +63,19 @@ int main(int argc, char *argv[]){
         printf("Soma: %d\n", soma);
     }
 
+    //verificando se o usuário passou o espacamento lateral no argumento
+    if (argc > 2){
+        espaco_l = atoi(argv[2]);
+    }
+    //verificando se o usuário passou a altura no argumento
+    if(argc > 3){
+        altura = atoi(argv[3]);
+    }
+
     printf("\n");
 
     //transforma o identificador de 8 digitos para binario (1, 0)
-    codIdentificador(digitos, cod_barras);
+    codIdentificador(digitos, cod_barras, 3);
     printf("Codigo de barras gerado eh (binario): %s\n", cod_barras);
 
     //gerar imagem .pbm com o codigo binario
