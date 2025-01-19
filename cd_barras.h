@@ -41,7 +41,7 @@ void codIdentificador(int identificador[], char resultado[], int qtd_pixels) {
     int pos = 0;
 
     //marcadores do inicio
-    for(int i = 0; i < qtd_pixels; i++){
+    for(int i = 0; i < 3; i++){
         for(int repetir = 0; repetir < qtd_pixels; repetir++){
             resultado[pos++] = '0' + inicio_cod[i];
         }
@@ -73,7 +73,7 @@ void codIdentificador(int identificador[], char resultado[], int qtd_pixels) {
     }
 
     //marcadores do fim
-    for(int i = 0; i < qtd_pixels; i++){
+    for(int i = 0; i < 3; i++){
         for(int repetir = 0; repetir < qtd_pixels; repetir++){
             resultado[pos++] = '0' + fim_cod[i];
         }

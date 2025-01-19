@@ -12,15 +12,29 @@ int main(int argc, char *argv[]){
     int digitos[8] = {};
     int soma = 0;
 
-    char cod_barras[68*3];
     const char *nomeArquivo = "cd_barras.pbm";
 
-    int altura = 100;
-    int espaco_l = 8;
+    //parametros padroes
+    int altura = 200;
+    int espaco_l = 20;
+    int qtd_pixels = 5;
 
     if(argc < 2){
         printf("Por favor, digite um identificador de 8 numeros como argumento.\n");
         return -1;
+    }
+
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    if(arquivo){
+        int resposta;
+        printf("O arquivo já existe. Podemos sobreescreve-lo? Digite 1 para Sim ou 2 para nao:\n");
+        scanf("%d", &resposta);
+        fclose(arquivo);
+
+        if(resposta == 2){
+            printf("Arquivo resultante ja existe!\n");
+            return -1;
+        }
     }
 
     //recebe o segundo parametro, ja que o primeiro eh o nome do arquivo passado na linha do cmd
@@ -28,7 +42,7 @@ int main(int argc, char *argv[]){
 
     //verifica se a entrada tem 8 numeros
     if(strlen(entrada) != 8){
-        printf("O identificador deve ter exatamente 8 digitos.\n");
+        printf("Identificador não possui 8 digitos.\n");
         return -1;
     }
 
@@ -40,7 +54,7 @@ int main(int argc, char *argv[]){
     //verificando se os dados estao corretos (somente valido de 0 a 9)
     for (int i = 0; i < 8; i++){
         if (digitos[i] < 0 || digitos[i] > 9){
-            printf("O Identificador precisa ter apenas numeros! Digite novamente:\n");
+            printf("Identificador contém valores não numéricos\n");
             return -1;
         }
     }
@@ -57,28 +71,38 @@ int main(int argc, char *argv[]){
     //Digito verificador
     if (((soma + digitos[7]) % 10) == 0){
         printf("Leitura realizada com sucesso!.\n");
-        printf("Soma: %d\n", soma);
     } else {
-        printf("Houve algum erro.\n");
-        printf("Soma: %d\n", soma);
+        printf("O numero identificador digitado eh invalido.\n");
+        return -1;
     }
 
     //verificando se o usuário passou o espacamento lateral no argumento
     if (argc > 2){
         espaco_l = atoi(argv[2]);
     }
-    //verificando se o usuário passou a altura no argumento
-    if(argc > 3){
-        altura = atoi(argv[3]);
+
+    //verificando se a quantidade de pixels foi passada no argumento
+    if (argc > 3){
+        qtd_pixels = atoi(argv[3]);
     }
+
+    //verificando se o usuário passou a altura no argumento
+    if(argc > 4){
+        altura = atoi(argv[4]);
+    }
+
+    //alocacao dinamica para o cod_barras
+    int tamanho = 68 * qtd_pixels;
+    char *cod_barras = (char *)malloc(tamanho * sizeof(char));
 
     printf("\n");
 
     //transforma o identificador de 8 digitos para binario (1, 0)
-    codIdentificador(digitos, cod_barras, 3);
-    printf("Codigo de barras gerado eh (binario): %s\n", cod_barras);
+    codIdentificador(digitos, cod_barras, qtd_pixels);
 
     //gerar imagem .pbm com o codigo binario
-    gerarImagemPBM(cod_barras, "cod_barras.pbm", altura, espaco_l);
+    gerarImagemPBM(cod_barras, nomeArquivo, altura, espaco_l);
+
+    free(cod_barras);
 
 }
